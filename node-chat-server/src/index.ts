@@ -1,32 +1,23 @@
-import express from 'express';
+import express, { Router } from 'express';
 import http from 'http';
+import * as controller from './apis';
 import { Server } from 'socket.io';
+import { socketService } from './socket';
 
 const app = express();
-const server = http.createServer(app);
-const io = new Server(server);
+export const server = http.createServer(app);
+export const roomList = new Map();
+export const io = new Server(server);
 
-app.get('/:room', (req, res) => {
-  res.send(`This is room ${req.params.room}`);
-});
+const routes: Router = Router({ mergeParams: true });
 
-io.on('connection', (socket) => {
-  console.log('User connected');
+app.use(routes);
 
-  socket.on('join_room', (room) => {
-    socket.join(room);
-    console.log(`User joined room ${room}`);
-  });
+routes.get('/rooms', controller.getRoomsInfo);
 
-  socket.on('send_message', (data) => {
-    const { room, message } = data;
-    io.to(room).emit('receive_message', message); // Send message only to users in the same room
-  });
+routes.post('/room', controller.createRoom);
 
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
+socketService(io);
 
 server.listen(3000, () => {
   console.log('Server is running on port 3000');
