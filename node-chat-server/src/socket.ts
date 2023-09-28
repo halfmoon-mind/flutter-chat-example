@@ -1,5 +1,4 @@
 import { Server } from 'socket.io';
-import { roomList } from '.';
 
 export const socketService = (io: Server) => {
   io.on('connection', (socket) => {
@@ -8,12 +7,6 @@ export const socketService = (io: Server) => {
     socket.on('join_room', (room) => {
       socket.join(room);
       console.log(`User joined room ${room}`);
-
-      if (roomList.has(room)) {
-        roomList.set(room, roomList.get(room) + 1);
-      } else {
-        roomList.set(room, 1);
-      }
     });
 
     socket.on('send_message', (data) => {
@@ -23,22 +16,13 @@ export const socketService = (io: Server) => {
     });
 
     socket.on('disconnect', () => {
+      socket.disconnect();
       console.log('User disconnected');
     });
 
     socket.on('leave_room', (room) => {
       socket.leave(room);
-
-      // 방 목록 업데이트
-      if (roomList.has(room)) {
-        const count = roomList.get(room) - 1;
-
-        if (count === 0) {
-          roomList.delete(room);
-        } else {
-          roomList.set(room, count);
-        }
-      }
+      console.log(`User left room ${room}`);
     });
   });
 };

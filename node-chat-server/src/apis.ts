@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { roomList } from '.';
 import { generateRandomString } from './utils';
+import Room from './model/room';
 
 /**
  * 룸 리스트 정보 반환
@@ -8,15 +9,18 @@ import { generateRandomString } from './utils';
  * @param res
  */
 export const getRoomsInfo = async (req: Request, res: Response) => {
-  if (roomList.size === 0) {
+  if (roomList.length === 0) {
     res.send({ rooms: [] });
     return;
   }
-  const roomsArray = Array.from(roomList.entries()).map(
-    ([roomCode, memberCount]) => {
-      return { roomCode, memberCount };
-    },
-  );
+  const roomsArray = roomList.map((e) => {
+    return {
+      id: e.id,
+      room: e.name,
+      count: e.users.length,
+    };
+  });
+
   res.send({ rooms: roomsArray });
 };
 
@@ -26,13 +30,53 @@ export const getRoomsInfo = async (req: Request, res: Response) => {
  * @param res
  */
 export const createRoom = async (req: Request, res: Response) => {
+  const { roomName } = req.body;
   let room: string = '';
 
   while (true) {
     room = generateRandomString(10);
-    if (!roomList.has(room)) break;
+
+    if (!roomList.some((e) => e.name === room)) {
+      break;
+    }
+  }
+  const newRoom = new Room(roomName, [], room);
+  roomList.push(newRoom);
+  res.send(newRoom);
+};
+
+/**
+ * 룸 입장
+ * @param req
+ * @param res
+ */
+export const joinRoom = async (req: Request, res: Response) => {
+  const { userName, room } = req.body;
+  const targetRoom = roomList.find((e) => e.name === room);
+
+  if (!targetRoom) {
+    res.send({ error: 'Room not found' });
+    return;
   }
 
-  roomList.set(room, 1);
-  res.send(room);
+  targetRoom.users.push(userName);
+  res.send(targetRoom);
+};
+
+/**
+ * 룸 퇴장
+ * @param req
+ * @param res
+ */
+export const leaveRoom = async (req: Request, res: Response) => {
+  const { userName, room } = req.body;
+  const targetRoom = roomList.find((e) => e.name === room);
+
+  if (!targetRoom) {
+    res.send({ error: 'Room not found' });
+    return;
+  }
+
+  targetRoom.users = targetRoom.users.filter((e) => e !== userName);
+  res.send(targetRoom);
 };
