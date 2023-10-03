@@ -7,8 +7,9 @@ part 'room.g.dart';
 @freezed
 class Room with _$Room {
   const factory Room({
-    required String roomCode,
-    required int memberCount,
+    required String id,
+    required String name,
+    required int count,
   }) = _Room;
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);

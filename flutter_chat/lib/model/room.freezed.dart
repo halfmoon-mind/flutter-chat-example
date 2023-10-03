@@ -20,8 +20,9 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Room {
-  String get roomCode => throw _privateConstructorUsedError;
-  int get memberCount => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  int get count => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,7 @@ abstract class $RoomCopyWith<$Res> {
   factory $RoomCopyWith(Room value, $Res Function(Room) then) =
       _$RoomCopyWithImpl<$Res, Room>;
   @useResult
-  $Res call({String roomCode, int memberCount});
+  $Res call({String id, String name, int count});
 }
 
 /// @nodoc
@@ -49,17 +50,22 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? roomCode = null,
-    Object? memberCount = null,
+    Object? id = null,
+    Object? name = null,
+    Object? count = null,
   }) {
     return _then(_value.copyWith(
-      roomCode: null == roomCode
-          ? _value.roomCode
-          : roomCode // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
-      memberCount: null == memberCount
-          ? _value.memberCount
-          : memberCount // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -72,7 +78,7 @@ abstract class _$$RoomImplCopyWith<$Res> implements $RoomCopyWith<$Res> {
       __$$RoomImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String roomCode, int memberCount});
+  $Res call({String id, String name, int count});
 }
 
 /// @nodoc
@@ -85,17 +91,22 @@ class __$$RoomImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? roomCode = null,
-    Object? memberCount = null,
+    Object? id = null,
+    Object? name = null,
+    Object? count = null,
   }) {
     return _then(_$RoomImpl(
-      roomCode: null == roomCode
-          ? _value.roomCode
-          : roomCode // ignore: cast_nullable_to_non_nullable
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
-      memberCount: null == memberCount
-          ? _value.memberCount
-          : memberCount // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
               as int,
     ));
   }
@@ -104,19 +115,21 @@ class __$$RoomImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RoomImpl with DiagnosticableTreeMixin implements _Room {
-  const _$RoomImpl({required this.roomCode, required this.memberCount});
+  const _$RoomImpl({required this.id, required this.name, required this.count});
 
   factory _$RoomImpl.fromJson(Map<String, dynamic> json) =>
       _$$RoomImplFromJson(json);
 
   @override
-  final String roomCode;
+  final String id;
   @override
-  final int memberCount;
+  final String name;
+  @override
+  final int count;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Room(roomCode: $roomCode, memberCount: $memberCount)';
+    return 'Room(id: $id, name: $name, count: $count)';
   }
 
   @override
@@ -124,8 +137,9 @@ class _$RoomImpl with DiagnosticableTreeMixin implements _Room {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'Room'))
-      ..add(DiagnosticsProperty('roomCode', roomCode))
-      ..add(DiagnosticsProperty('memberCount', memberCount));
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('count', count));
   }
 
   @override
@@ -133,15 +147,14 @@ class _$RoomImpl with DiagnosticableTreeMixin implements _Room {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RoomImpl &&
-            (identical(other.roomCode, roomCode) ||
-                other.roomCode == roomCode) &&
-            (identical(other.memberCount, memberCount) ||
-                other.memberCount == memberCount));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.count, count) || other.count == count));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, roomCode, memberCount);
+  int get hashCode => Object.hash(runtimeType, id, name, count);
 
   @JsonKey(ignore: true)
   @override
@@ -159,15 +172,18 @@ class _$RoomImpl with DiagnosticableTreeMixin implements _Room {
 
 abstract class _Room implements Room {
   const factory _Room(
-      {required final String roomCode,
-      required final int memberCount}) = _$RoomImpl;
+      {required final String id,
+      required final String name,
+      required final int count}) = _$RoomImpl;
 
   factory _Room.fromJson(Map<String, dynamic> json) = _$RoomImpl.fromJson;
 
   @override
-  String get roomCode;
+  String get id;
   @override
-  int get memberCount;
+  String get name;
+  @override
+  int get count;
   @override
   @JsonKey(ignore: true)
   _$$RoomImplCopyWith<_$RoomImpl> get copyWith =>

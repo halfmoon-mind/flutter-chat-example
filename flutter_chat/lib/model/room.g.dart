@@ -7,12 +7,14 @@ part of 'room.dart';
 // **************************************************************************
 
 _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
-      roomCode: json['roomCode'] as String,
-      memberCount: json['memberCount'] as int,
+      id: json['id'] as String,
+      name: json['name'] as String,
+      count: json['count'] as int,
     );
 
 Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) =>
     <String, dynamic>{
-      'roomCode': instance.roomCode,
-      'memberCount': instance.memberCount,
+      'id': instance.id,
+      'name': instance.name,
+      'count': instance.count,
     };
