@@ -32,13 +32,13 @@ export const socketService = (io: Server) => {
       socket.emit('left_room_confirm', { room: data.room });
     });
 
-    if (socket.disconnected) {
+    socket.on('disconnect', () => {
       console.log('User disconnected');
       roomList.forEach((room) => {
         handleUserLeaving(socket, room.id);
         socket.leave(room.id);
       });
-    }
+    });
 
     const handleUserLeaving = (socket: Socket, room: string) => {
       const targetRoomIndex = roomList.findIndex((e) => e.id === room);
