@@ -10,6 +10,8 @@ export const server = http.createServer(app);
 export const roomList: Room[] = [];
 export const io = new Server(server);
 
+app.use(express.json());
+
 const routes: Router = Router({ mergeParams: true });
 
 app.use(routes);

@@ -1,14 +1,14 @@
 import User from './user';
 
 export default class Room {
+  id: string;
   name: string;
   users: User[];
-  id: string;
 
-  constructor(name: string, users: User[], id: string) {
+  constructor(id: string, name: string, users: User[]) {
+    this.id = id;
     this.name = name;
     this.users = users;
-    this.id = id;
   }
 
   addUser(user: User) {

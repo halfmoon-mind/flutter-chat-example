@@ -16,7 +16,7 @@ export const getRoomsInfo = async (req: Request, res: Response) => {
   const roomsArray = roomList.map((e) => {
     return {
       id: e.id,
-      room: e.name,
+      name: e.name,
       count: e.users.length,
     };
   });
@@ -30,7 +30,13 @@ export const getRoomsInfo = async (req: Request, res: Response) => {
  * @param res
  */
 export const createRoom = async (req: Request, res: Response) => {
-  const { roomName } = req.body;
+  const { name } = req.body;
+
+  if (name === undefined) {
+    res.send({ error: 'Room name is undefined' });
+    return;
+  }
+
   let room: string = '';
 
   while (true) {
@@ -40,9 +46,13 @@ export const createRoom = async (req: Request, res: Response) => {
       break;
     }
   }
-  const newRoom = new Room(roomName, [], room);
+  const newRoom = new Room(room, name, []);
   roomList.push(newRoom);
-  res.send(newRoom);
+  res.send({
+    id: newRoom.id,
+    name: newRoom.name,
+    count: newRoom.users.length,
+  });
 };
 
 /**
@@ -51,15 +61,16 @@ export const createRoom = async (req: Request, res: Response) => {
  * @param res
  */
 export const joinRoom = async (req: Request, res: Response) => {
-  const { userName, room } = req.body;
-  const targetRoom = roomList.find((e) => e.name === room);
+  const { nickname, roomCode } = req.body;
+  const targetRoom = roomList.find((e) => e.id === roomCode);
 
   if (!targetRoom) {
     res.send({ error: 'Room not found' });
     return;
   }
 
-  targetRoom.users.push(userName);
+  targetRoom.users.push(nickname);
+  console.log(targetRoom);
   res.send(targetRoom);
 };
 
